@@ -1,6 +1,17 @@
-<% className = form_action.delete(:class) %>
+<%
+  className = form_action.delete(:class)
+  new_article = !@article.id
+%>
 <%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
 
   <%= render :partial => "form" %>
 
+<% end %>
+
+<% if !new_article %>
+  <%= form_tag({controller: 'content', action: 'merge', id: @article.id}, :id => "#{form_type}_merge", :enctype => "multipart/form-data", :class => className) do %>
+
+    <%= render :partial => "merge" %>
+
+  <% end %>
 <% end %>
