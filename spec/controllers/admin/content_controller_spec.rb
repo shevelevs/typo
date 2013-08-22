@@ -680,8 +680,10 @@ describe Admin::ContentController do
         @user = Factory(:user, :profile => Factory(:profile_admin, :label => Profile::ADMIN))
         @article1 = Factory(:article, :user => @user, :body => 'article1_body',
                             :title => 'article1_title')
+        Comment.create!(:article_id => @article1.id, :title => 'a1_comment_title', :author => 'a1_comment_author', :body => 'a1_comment_body')
         @article2 = Factory(:article, :user => @user, :body => 'article2_body',
                             :title => 'article2_title')
+        Comment.create!(:article_id => @article2.id, :title => 'a2_comment_title', :author => 'a2_comment_author', :body => 'a2_comment_body')
         request.session = {:user => @user.id}
       end
 
@@ -703,6 +705,22 @@ describe Admin::ContentController do
         @article1.body.should include 'article1_body'
         @article1.body.should include 'article2_body'
       end
+
+      it 'should have author of the first article' do
+        author = @article1.author
+        post :merge, :id => @article1.id, :merge_with => @article2.id
+        response.should redirect_to :action => 'edit', :id => @article1.id
+        @article1.reload
+        @article1.author.should be == author
+      end
+
+      it 'should preserve comments when merging' do
+        post :merge, :id => @article1.id, :merge_with => @article2.id
+        response.should redirect_to :action => 'edit', :id => @article1.id
+        @article1.reload
+        comments = Array.new (@article1.comments)
+        (comments.find{ |c| c.body == 'a2_comment_body' }).should_not be_nil
+      end
     end
 
     describe 'with publisher connection' do
@@ -715,9 +733,9 @@ describe Admin::ContentController do
       end
 
       it 'should not suceed on attempt to merge' do
-        #post :merge, :id => @article.id, :merge_with => 1
-        #response.should_not be_success
-        pending
+        lambda {
+          post :merge, :id => @article.id, :merge_with => @article.id + 1
+        }.should raise_error;
       end
     end
   end

@@ -420,7 +420,12 @@ class Article < Content
     raise(ArgumentError, "Cannot merge with self") if id == article_id
     article = Article.find(article_id)
     self.body = self.body + article.body
+    article.comments.each do |comment|
+      comment.article_id = self.id
+      comment.save
+    end
     save
+    article.reload
     article.destroy
   end
 

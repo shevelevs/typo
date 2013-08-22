@@ -1,6 +1,6 @@
 <%
   className = form_action.delete(:class)
-  new_article = !@article.id
+  new_article = @article == nil || !@article.id
 %>
 <%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
 

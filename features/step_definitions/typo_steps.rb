@@ -20,3 +20,14 @@ Then /^I should see "(.*?)" button$/ do |name|
   page.should have_button(name)
 end
 
+Given /^I merge with "(.*?)"$/ do |article_title|
+  a = Article.find_by_title(article_title)
+  fill_in 'merge_with', :with => a.id
+  click_button 'Merge'
+end
+
+Then /^article body should contain "(.*?)"$/ do |value|
+  field = find_field('article[body_and_extended]')
+  field_value = (field.tag_name == 'textarea') ? field.text : field.value
+  field_value.should =~ /#{value}/
+end

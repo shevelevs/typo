@@ -118,11 +118,11 @@ class Admin::ContentController < Admin::BaseController
       @article = Article.find(params[:id])
       @article.merge_with(params[:merge_with])
       flash[:notice] = _('Articles were successfully merged.')
+      flash.keep
+      redirect_to :action => 'edit', :id => params[:id]
     else
-      flash[:error] = _("Error, you are not allowed to perform this action")
+      raise "Error, you are not allowed to perform this action"
     end
-    flash.keep
-    redirect_to :action => 'edit', :id => @article.id
   end
 
   protected

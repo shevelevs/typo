@@ -36,3 +36,15 @@ Background: users and articles have been added to database
     Given I am on the article edit page for "Article 1"
     And I am logged in as "publisher"
     Then I should not see "Merge Articles"
+
+  Scenario: A non-admin cannot merge two articles
+    Given I am on the article edit page for "Article 1"
+    And I am logged in as "publisher"
+    Then I should not see "Merge Articles"
+
+  Scenario: When articles are merged, the merged article should contain the text of both previous articles
+    Given I am logged in as "admin"
+    And I am on the article edit page for "Article 1"
+    And I merge with "Article 2"
+    Then article body should contain "Article body1"
+    And  article body should contain "Article body2"
