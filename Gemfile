@@ -24,7 +24,7 @@ group :production do
 end
 
 group :aws_production do
-  gem 'mysql2'
+  gem 'mysql2', '<0.3'
 end
 
 source 'https://rubygems.org'
