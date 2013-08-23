@@ -23,7 +23,7 @@ group :production do
   gem 'pg'
 end
 
-group 'aws-production' do
+group :aws_production do
   gem 'mysql2'
 end
 
