@@ -113,8 +113,13 @@ class Admin::ContentController < Admin::BaseController
     render :text => nil
   end
 
+  helper_method :allowed_to_merge?
+  def allowed_to_merge?
+    current_user.admin?
+  end
+
   def merge
-    if current_user.admin?
+    if allowed_to_merge?
       @article = Article.find(params[:id])
       @article.merge_with(params[:merge_with])
       flash[:notice] = _('Articles were successfully merged.')

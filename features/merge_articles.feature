@@ -27,19 +27,14 @@ Background: users and articles have been added to database
     And I am on the new article page
     Then I should not see "Merge Articles"
 
-  Scenario: Merge articles form not shown for contributors
-    Given I am on the article edit page for "Article 1"
-    And I am logged in as "contributor"
-    Then I should not see "Merge Articles"
-
   Scenario: Merge articles form not shown for publishers
-    Given I am on the article edit page for "Article 1"
-    And I am logged in as "publisher"
+    Given I am logged in as "publisher"
+    And I am on the article edit page for "Article 3"
     Then I should not see "Merge Articles"
 
   Scenario: A non-admin cannot merge two articles
-    Given I am on the article edit page for "Article 1"
-    And I am logged in as "publisher"
+    Given I am logged in as "publisher"
+    And I am on the article edit page for "Article 3"
     Then I should not see "Merge Articles"
 
   Scenario: When articles are merged, the merged article should contain the text of both previous articles

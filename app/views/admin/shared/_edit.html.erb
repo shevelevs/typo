@@ -8,7 +8,7 @@
 
 <% end %>
 
-<% if !new_article %>
+<% if !new_article && allowed_to_merge? %>
   <%= form_tag({controller: 'content', action: 'merge', id: @article.id}, :id => "#{form_type}_merge", :enctype => "multipart/form-data", :class => className) do %>
 
     <%= render :partial => "merge" %>
