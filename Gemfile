@@ -23,6 +23,10 @@ group :production do
   gem 'pg'
 end
 
+group 'aws-production' do
+  gem 'mysql2'
+end
+
 source 'https://rubygems.org'
 ruby "1.9.3"
 
