@@ -13,7 +13,7 @@ production:
   database: db_production
   timeout: 5000
 
-aws-production:
+aws_production:
   adapter: mysql2
   encoding: utf8
   database: <%= ENV['RDS_DB_NAME'] %>
