@@ -733,9 +733,8 @@ describe Admin::ContentController do
       end
 
       it 'should not suceed on attempt to merge' do
-        lambda {
-          post :merge, :id => @article.id, :merge_with => @article.id + 1
-        }.should raise_error;
+        post :merge, :id => @article.id, :merge_with => @article.id + 1
+        flash[:error].should include('Error')
       end
     end
   end
